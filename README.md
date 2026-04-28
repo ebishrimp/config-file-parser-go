@@ -50,7 +50,7 @@ func main() {
 	defer f.Close()
 
 	// 2. Parse the configuration
-	conf, err := <YOUR_PACKAGE_NAME>.Parse(f)
+	conf, err := confparser.Parse(f)
 	if err != nil {
 		log.Fatalf("Parse error: %v", err)
 	}
