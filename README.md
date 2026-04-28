@@ -16,6 +16,11 @@ It easily parses simple, space-separated formats commonly found in Linux config 
 
 ```bash
 go get github.com/ebishrimp/config-file-parser-go
+```
+
+## Sample
+
+```bash
 Usage
 1. Prepare a Configuration File
 Create a config file (e.g., config.conf) that you want to parse.
@@ -30,7 +35,7 @@ invalid_key too many values
 2. Use in Your Go Code
 You can parse directly from a file or a string, as long as it satisfies the io.Reader interface.
 
-go
+
 package main
 
 import (
