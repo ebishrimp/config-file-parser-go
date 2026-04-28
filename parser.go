@@ -53,14 +53,17 @@ func Parse(r io.Reader) (*Config, error) {
 	return conf, nil
 }
 
+// [return value which is associated with the key, if the key does not exist, return empty string]
 func (c *Config) GetValue(key string) string {
 	return c.data[key]
 }
 
+// [return value which is assocated with key and is converted to int, if the key does not exist or the value cannot be converted to int, return error]
 func (c *Config) IntGetValue(key string) (int, error) {
 	return strconv.Atoi(c.data[key])
 }
 
+// [return true if the key exists, otherwise return false]
 func (c *Config) ExistsValue(key string) bool {
 	_, ok := c.data[key]
 	return ok
