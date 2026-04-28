@@ -34,14 +34,15 @@ key4 8080
 		t.Errorf("Expected no value for key3, got '%s'", get)
 	}
 
-	if get := conf.IntGetValue("key4"); get != 8080 {
+	if get, err := conf.IntGetValue("key4"); err != nil || get != 8080 {
 		t.Errorf("Expected 8080 for key4, got '%d'", get)
 	}
 
-	if conf.ExistValue("key3") {
+	if conf.ExistsValue("key3") {
 		t.Errorf("Expected no value for key3, but it exists")
 	}
 
-	if !conf.ExistValue("key4") {
+	if !conf.ExistsValue("key4") {
 		t.Errorf("Expected value for key4, but it does not exist")
 	}
+}
