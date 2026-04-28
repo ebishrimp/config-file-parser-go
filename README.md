@@ -58,11 +58,11 @@ func main() {
 	// 3. Retrieve values
 
 	// Get as a string (Return)
-	host := conf.Return("host")
+	host := conf.GetValue("host")
 	fmt.Printf("Host: %s\n", host)
 
 	// Get as an integer (IntReturn)
-	port, err := conf.IntReturn("port")
+	port, err := conf.IntGetValue("port")
 	if err != nil {
 		log.Printf("Failed to get port: %v", err)
 	} else {
@@ -70,7 +70,7 @@ func main() {
 	}
 
 	// Check if a key exists (Exists)
-	if conf.Exists("invalid_key") {
+	if conf.ExistsValue("invalid_key") {
 		fmt.Println("invalid_key exists")
 	} else {
 		fmt.Println("invalid_key does not exist because it was skipped")
