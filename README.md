@@ -15,7 +15,7 @@ It easily parses simple, space-separated formats commonly found in Linux config 
 ## Installation
 
 ```bash
-go get [github.com/](https://github.com/)<YOUR_USERNAME>/<YOUR_REPO_NAME>
+go get github.com/ebishrimp/config-file-parser-go
 Usage
 1. Prepare a Configuration File
 Create a config file (e.g., config.conf) that you want to parse.
