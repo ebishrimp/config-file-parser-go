@@ -8,9 +8,13 @@ It easily parses simple, space-separated formats commonly found in Linux config 
 - **Simple:** Zero external dependencies (uses only the Go standard library).
 - **Lightweight:** Accepts an `io.Reader`, ensuring a low memory footprint even when processing large files.
 - **Intuitive Rules:**
+  - Use Parse() method.
   - Parses space- or tab-separated entries (e.g., `key value`).
   - Ignores anything after a `#` as a comment.
   - Safely skips empty lines and lines with three or more elements (e.g., `key value1 value2`) as invalid formats.
+- **Multiple Values:**
+  - Use ParseMultipleValues() method
+  - All values are stored into slices
 
 ## Installation
 

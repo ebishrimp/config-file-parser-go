@@ -14,6 +14,13 @@ key2 value2 # This is another comment
 key3 value3-1 value3-2
 
 key4 8080
+
+multiplekey 1
+multiplekey 2
+multiplekey 3
+
+key5 value5
+
 `
 	r := strings.NewReader(input)
 	conf, err := Parse(r)
@@ -44,5 +51,28 @@ key4 8080
 
 	if !conf.ExistsValue("key4") {
 		t.Errorf("Expected value for key4, but it does not exist")
+	}
+
+	r2 := strings.NewReader(input)
+
+	multiConf, err := ParseMultipleValues(r2)
+	if err != nil {
+		t.Fatalf("ParseMultipleValues failed: %v", err)
+	}
+
+	if get := GetMultipleValues(multiConf, "multiplekey"); len(get) != 3 || get[0] != "1" || get[1] != "2" || get[2] != "3" {
+		t.Errorf("Expected ['1', '2', '3'] for multiplekey, got %v", get)
+	}
+
+	if get := GetMultipleValues(multiConf, "key5"); len(get) != 1 || get[0] != "value5" {
+		t.Errorf("Expected ['value5'] for key5, got %v", get)
+	}
+
+	if get := GetFirstValue(multiConf, "multiplekey"); get != "1" {
+		t.Errorf("Expected '1' for first value of multiplekey, got '%s'", get)
+	}
+
+	if !ExistsMultipleValues(multiConf, "multiplekey") {
+		t.Errorf("Expected multiple values for multiplekey, but none found")
 	}
 }
