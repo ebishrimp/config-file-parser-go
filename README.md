@@ -19,7 +19,12 @@ It easily parses simple, space-separated formats commonly found in Linux config 
 ## Installation
 
 ```bash
-go get [github.com/](https://github.com/)<YOUR_USERNAME>/<YOUR_REPO_NAME>
+go get github.com/ebishrimp/config-file-parser-go
+```
+
+## Sample
+
+```bash
 Usage
 1. Prepare a Configuration File
 Create a config file (e.g., config.conf) that you want to parse.
@@ -34,7 +39,7 @@ invalid_key too many values
 2. Use in Your Go Code
 You can parse directly from a file or a string, as long as it satisfies the io.Reader interface.
 
-go
+
 package main
 
 import (
@@ -54,7 +59,7 @@ func main() {
 	defer f.Close()
 
 	// 2. Parse the configuration
-	conf, err := <YOUR_PACKAGE_NAME>.Parse(f)
+	conf, err := confparser.Parse(f)
 	if err != nil {
 		log.Fatalf("Parse error: %v", err)
 	}
@@ -62,11 +67,11 @@ func main() {
 	// 3. Retrieve values
 
 	// Get as a string (Return)
-	host := conf.Return("host")
+	host := conf.GetValue("host")
 	fmt.Printf("Host: %s\n", host)
 
 	// Get as an integer (IntReturn)
-	port, err := conf.IntReturn("port")
+	port, err := conf.IntGetValue("port")
 	if err != nil {
 		log.Printf("Failed to get port: %v", err)
 	} else {
@@ -74,7 +79,7 @@ func main() {
 	}
 
 	// Check if a key exists (Exists)
-	if conf.Exists("invalid_key") {
+	if conf.ExistsValue("invalid_key") {
 		fmt.Println("invalid_key exists")
 	} else {
 		fmt.Println("invalid_key does not exist because it was skipped")
