@@ -49,7 +49,7 @@ invalid_form value3 value4 value5
 2. Use in Your Go Code
 You can parse directly from a file or a string, as long as it satisfies the io.Reader interface.
 
-```bash
+```go
 package main
 
 import (
