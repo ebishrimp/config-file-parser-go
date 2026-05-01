@@ -60,19 +60,19 @@ key5 value5
 		t.Fatalf("ParseMultipleValues failed: %v", err)
 	}
 
-	if get := GetMultipleValues(multiConf, "multiplekey"); len(get) != 3 || get[0] != "1" || get[1] != "2" || get[2] != "3" {
+	if get := multiConf.GetMultipleValues("multiplekey"); len(get) != 3 || get[0] != "1" || get[1] != "2" || get[2] != "3" {
 		t.Errorf("Expected ['1', '2', '3'] for multiplekey, got %v", get)
 	}
 
-	if get := GetMultipleValues(multiConf, "key5"); len(get) != 1 || get[0] != "value5" {
+	if get := multiConf.GetMultipleValues("key5"); len(get) != 1 || get[0] != "value5" {
 		t.Errorf("Expected ['value5'] for key5, got %v", get)
 	}
 
-	if get := GetFirstValue(multiConf, "multiplekey"); get != "1" {
+	if get := multiConf.GetFirstValue("multiplekey"); get != "1" {
 		t.Errorf("Expected '1' for first value of multiplekey, got '%s'", get)
 	}
 
-	if !ExistsMultipleValues(multiConf, "multiplekey") {
+	if !multiConf.ExistsMultipleValues("multiplekey") {
 		t.Errorf("Expected multiple values for multiplekey, but none found")
 	}
 }

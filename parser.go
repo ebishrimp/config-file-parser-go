@@ -114,12 +114,12 @@ func ParseMultipleValues(r io.Reader) (*MultiConfig, error) {
 }
 
 // return a slice of strings which are associated with the key, if the key does not exist, return an empty slice
-func GetMultipleValues(c *MultiConfig, key string) []string {
+func (c *MultiConfig) GetMultipleValues(key string) []string {
 	return c.data[key]
 }
 
 // return the first value which is associated with the key, if the key does not exist, return empty string
-func GetFirstValue(c *MultiConfig, key string) string {
+func (c *MultiConfig) GetFirstValue(key string) string {
 	values := c.data[key]
 	if len(values) > 0 {
 		return values[0]
@@ -128,7 +128,7 @@ func GetFirstValue(c *MultiConfig, key string) string {
 }
 
 // return true if the key exists, otherwise return false
-func ExistsMultipleValues(c *MultiConfig, key string) bool {
+func (c *MultiConfig) ExistsMultipleValues(key string) bool {
 	_, ok := c.data[key]
 	return ok
 }
