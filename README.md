@@ -104,16 +104,16 @@ func main() {
 	// 5. Retrieve values
 
 	// Get string slice
-	multival := confparser.GetMultipleValues(multiConf, "multiplevalues")
+	multival := multiConf.GetMultipleValues("multiplevalues")
 	// multival[0] == "value1"
 	// multival[1] == "value2"
 
 	// Get a first contest of slice
-	firstval := cnfparser.GetFirstValue(multiConf, "multiplevalues")
+	firstval := multiConf.GetFirstValue("multiplevalues")
 	// firstval == "value1"
 
 	// Check if a key exists
-	if conf.ExistsValue("invalid_form") {
+	if conf.ExistsMultipleValues("invalid_form") {
 		fmt.Println("invalid_form exists")
 	} else {
 		fmt.Println("invalid_form does not exist because it was skipped")
