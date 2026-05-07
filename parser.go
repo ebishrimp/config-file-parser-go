@@ -252,7 +252,7 @@ func (c *ConfigurationMap) Float(key string) (float64, error) {
 // Return the value which is associated with the key and is converted to bool, if the key does not exist or the value cannot be converted to bool, return error. Multiple values for the same key are not allowed for boolean values, if there are multiple values, return error.
 func (c ConfigurationMap) Bool(key string) (bool, error) {
 	value := c.data[key][0]
-	if len(value) == 1 {
+	if len(c.data[key]) == 1 {
 		if booldata, err := strconv.ParseBool(value); err != nil {
 			if strings.EqualFold(value, "yes") || strings.EqualFold(value, "y") {
 				return true, nil
