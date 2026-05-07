@@ -79,7 +79,7 @@ key5 value5
 	input2_forConfigurationMap := `
 key1 value1
 key1 value2
-key2 v1 v2 v3
+#key2 v1 v2 v3 (if # prefix is eliminated, error should be reported because simultaneous declaration is not allowed)
 
 key3 "str with spaces"
 key4 "str contains " quotes"
@@ -92,8 +92,7 @@ key8 1.23
 key9 1.23abc
 # This is a comment
 
-# Empty line
-key10
+#key10 (if # prefix is eliminated, error should be reported)
 # no value for key10
 
 key11 true
@@ -106,73 +105,76 @@ key15 v2
 key15 v3
 key15 v4
 
-key16 value # with comment
+#key16 value # with comment (if # prefix is eliminated, errorshould be reported)
 `
 
 	r3 := strings.NewReader(input2_forConfigurationMap)
-	c, _ := ParseConfig(r3)
+	if c, err := ParseConfig(r3); err != nil {
+		t.Fatalf("ParseConfig failed: %v", err)
+	} else {
 
-	if k := c.StringSlice("key1"); k[0] != "value1" || k[1] != "value2" {
-		t.Errorf("Expected 'value1' and 'value2' for key1, got %v", c.StringSlice("key1"))
-	}
+		if k := c.StringSlice("key1"); k[0] != "value1" || k[1] != "value2" {
+			t.Errorf("Expected 'value1' and 'value2' for key1, got %v", c.StringSlice("key1"))
+		}
 
-	if c.Exists("key2") {
-		t.Errorf("Expected no value for key2, but it exists")
-	}
+		if c.Exists("key2") {
+			t.Errorf("Expected no value for key2, but it exists")
+		}
 
-	if c.String("key3") != "str with spaces" {
-		t.Errorf("Expected 'str with spaces' for key3, got '%s'", c.String("key3"))
-	}
+		if c.String("key3") != "str with spaces" {
+			t.Errorf("Expected 'str with spaces' for key3, got '%s'", c.String("key3"))
+		}
 
-	if c.String("key4") != "str contains \" quotes" {
-		t.Errorf("Expected 'str contains \" quotes' for key4, got '%s'", c.String("key4"))
-	}
+		if c.String("key4") != "str contains \" quotes" {
+			t.Errorf("Expected 'str contains \" quotes' for key4, got '%s'", c.String("key4"))
+		}
 
-	if c.String("key5") != "str with # in quotes" {
-		t.Errorf("Expected 'str with # in quotes' for key5, got '%s'", c.String("key5"))
-	}
+		if c.String("key5") != "str with # in quotes" {
+			t.Errorf("Expected 'str with # in quotes' for key5, got '%s'", c.String("key5"))
+		}
 
-	if i, err := c.Int("key6"); err != nil || i != 123 {
-		t.Errorf("Expected 123 for key6, got '%d'", i)
-	}
+		if i, err := c.Int("key6"); err != nil || i != 123 {
+			t.Errorf("Expected 123 for key6, got '%d'", i)
+		}
 
-	if _, err := c.Int("key7"); err == nil {
-		t.Errorf("Expected error for key7, but got none")
-	}
+		if _, err := c.Int("key7"); err == nil {
+			t.Errorf("Expected error for key7, but got none")
+		}
 
-	if f, err := c.Float("key8"); err != nil || f != 1.23 {
-		t.Errorf("Expected 1.23 for key8, got '%f'", f)
-	}
+		if f, err := c.Float("key8"); err != nil || f != 1.23 {
+			t.Errorf("Expected 1.23 for key8, got '%f'", f)
+		}
 
-	if _, err := c.Float("key9"); err == nil {
-		t.Errorf("Expected error for key9, but got none")
-	}
+		if _, err := c.Float("key9"); err == nil {
+			t.Errorf("Expected error for key9, but got none")
+		}
 
-	if c.Exists("key10") {
-		t.Errorf("Expected no value for key10, but it exists")
-	}
+		if c.Exists("key10") {
+			t.Errorf("Expected no value for key10, but it exists")
+		}
 
-	if b, err := c.Bool("key11"); err != nil || b != true {
-		t.Errorf("Expected true for key11, got '%t'", b)
-	}
+		if b, err := c.Bool("key11"); err != nil || b != true {
+			t.Errorf("Expected true for key11, got '%t'", b)
+		}
 
-	if b, err := c.Bool("key12"); err != nil || b != false {
-		t.Errorf("Expected false for key12, got '%t'", b)
-	}
+		if b, err := c.Bool("key12"); err != nil || b != false {
+			t.Errorf("Expected false for key12, got '%t'", b)
+		}
 
-	if b, err := c.Bool("key13"); err != nil || b != true {
-		t.Errorf("Expected true for key13, got '%t'", b)
-	}
+		if b, err := c.Bool("key13"); err != nil || b != true {
+			t.Errorf("Expected true for key13, got '%t'", b)
+		}
 
-	if b, err := c.Bool("key14"); err != nil || b != false {
-		t.Errorf("Expected false for key14, got '%t'", b)
-	}
+		if b, err := c.Bool("key14"); err != nil || b != false {
+			t.Errorf("Expected false for key14, got '%t'", b)
+		}
 
-	if l, err := c.Length("key15"); err != nil || l != 4 {
-		t.Errorf("Expected length 4 for key15, got '%d'", l)
-	}
+		if l, err := c.Length("key15"); err != nil || l != 4 {
+			t.Errorf("Expected length 4 for key15, got '%d'", l)
+		}
 
-	if c.Exists("key16") {
-		t.Errorf("Expected no value for key16, but it exists")
+		if c.Exists("key16") {
+			t.Errorf("Expected no value for key16, but it exists")
+		}
 	}
 }
