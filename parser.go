@@ -149,7 +149,7 @@ func (err *ParseError) Error() string {
 }
 
 // Read and parse the configuration through the io.Reader, return a ConfigurationMap struct. If there is an error during reading, return a ParseError struct which contains the line number and the error message. The ConfigurationMap struct should support multiple values for the same key.
-func ParseConfig(r io.Reader) (*ConfigurationMap, *ParseError) {
+func ParseConfig(r io.Reader) (*ConfigurationMap, error) {
 	conf := &ConfigurationMap{
 		data: make(map[string][]string),
 	}
@@ -174,8 +174,10 @@ func ParseConfig(r io.Reader) (*ConfigurationMap, *ParseError) {
 			if strings.HasPrefix(p[1], "\"") && strings.HasSuffix(p[len(p)-1], "\"") {
 				key := p[0]
 
+				strings.TrimPrefix(p[1], "\"")
+				strings.TrimSuffix(p[len(p)-1], "\"")
+
 				str := strings.Join(p[1:], " ")
-				str = strings.Trim(str, "\"")
 
 				conf.data[key] = append(conf.data[key], str)
 			} else {
@@ -184,6 +186,10 @@ func ParseConfig(r io.Reader) (*ConfigurationMap, *ParseError) {
 		} else {
 			parts := strings.Fields(line)
 			key := parts[0]
+
+			strings.TrimPrefix(parts[1], "\"")
+			strings.TrimSuffix(parts[1], "\"")
+
 			value := parts[1]
 			conf.data[key] = append(conf.data[key], value)
 		}
@@ -250,7 +256,7 @@ func (c *ConfigurationMap) Float(key string) (float64, error) {
 }
 
 // Return the value which is associated with the key and is converted to bool, if the key does not exist or the value cannot be converted to bool, return error. Multiple values for the same key are not allowed for boolean values, if there are multiple values, return error.
-func (c ConfigurationMap) Bool(key string) (bool, error) {
+func (c *ConfigurationMap) Bool(key string) (bool, error) {
 	if len(c.data[key]) == 1 {
 		value := c.data[key][0]
 		if booldata, err := strconv.ParseBool(value); err != nil {

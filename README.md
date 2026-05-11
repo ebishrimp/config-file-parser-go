@@ -21,6 +21,7 @@ go get github.com/ebishrimp/config-file-parser-go
 	- Only #-prefix lines will be ignored but non-prefix strings including # can be parsed as keys or values.
 	- If there are grammatical error, then lines and error will return as ParseError struct.
 	- Declaration of multiple values is required to written each lines.
+	- When there are two or more spaces in quotes, they will be converted to single space.
 
 ## Sample
 
@@ -61,11 +62,11 @@ func main() {
 	defer file.Close()
 
 	// 2. Parse the configuration
-	// ParseConfig returns *ConfigurationMap and *ParseError
-	conf, pErr := confparser.ParseConfig(file)
-	if pErr != nil {
+	// ParseConfig returns *ConfigurationMap and ParseError (error interface)
+	conf, err := confparser.ParseConfig(file)
+	if err != nil {
 		// ParseError contains the line number and a detailed message
-		log.Fatalf("Parse error at %v", pErr)
+		log.Fatalf("Parse error at %v", err)
 	}
 
 	// 3. Get single values (String, Int, Float, Bool)
