@@ -165,7 +165,7 @@ func ParseConfig(r io.Reader) (*ConfigurationMap, error) {
 			continue
 		}
 
-		if parts := strings.TrimSpace(line); len(parts) < 2 {
+		if parts := strings.Fields(line); len(parts) < 2 {
 			return nil, &ParseError{line: l, msg: "no value for key found"}
 		}
 
@@ -174,8 +174,8 @@ func ParseConfig(r io.Reader) (*ConfigurationMap, error) {
 			if strings.HasPrefix(p[1], "\"") && strings.HasSuffix(p[len(p)-1], "\"") {
 				key := p[0]
 
-				strings.TrimPrefix(p[1], "\"")
-				strings.TrimSuffix(p[len(p)-1], "\"")
+				p[1] = strings.TrimPrefix(p[1], "\"")
+				p[len(p)-1] = strings.TrimSuffix(p[len(p)-1], "\"")
 
 				str := strings.Join(p[1:], " ")
 
@@ -187,8 +187,8 @@ func ParseConfig(r io.Reader) (*ConfigurationMap, error) {
 			parts := strings.Fields(line)
 			key := parts[0]
 
-			strings.TrimPrefix(parts[1], "\"")
-			strings.TrimSuffix(parts[1], "\"")
+			parts[1] = strings.TrimPrefix(parts[1], "\"")
+			parts[1] = strings.TrimSuffix(parts[1], "\"")
 
 			value := parts[1]
 			conf.data[key] = append(conf.data[key], value)

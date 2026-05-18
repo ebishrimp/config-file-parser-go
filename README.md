@@ -2,6 +2,8 @@
 
 `config-file-parser-go` is a simple and lightweight Key-Value configuration file parser for Go. 
 It easily parses simple, space-separated formats commonly found in Linux config files, making them easy to use within your Go applications.
+For more infomation, refer the document page below:
+https://pkg.go.dev/github.com/ebishrimp/config-file-parser-go
 
 ## Installation
 
